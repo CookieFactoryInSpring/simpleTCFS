@@ -3,9 +3,9 @@ name: Backend
 on:
   push:
     branches:
-      - feature/**
+      - abdellah
     paths:
-      - backend/**
+      - abdellah
 
 jobs:
   Backend:
