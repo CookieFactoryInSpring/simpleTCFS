@@ -11,6 +11,13 @@ This case study is used to illustrate the different technologies involved in the
   * J2E implementation language: Java >=11 or above (Java language level is set to Java 11)
   * .Net implementation language: Mono >=6.12
 
+| Section              | Badge                                                   |
+|----------------------|---------------------------------------------------------|
+|Backend coverage      |  ![Backend coverage](.github/badges/backend-jacoco.svg) |
+ 
+
+
+
 ## Product vision
 
 _The Cookie Factory_ (TCF) is a major bakery brand in the USA. The _Cookie on Demand_ (CoD) system is an innovative service offered by TCF to its customer. They can order cookies online thanks to an application, and select when they'll pick-up their order in a given shop. The CoD system ensures to TCF's happy customers that they'll always retrieve their pre-paid warm cookies on time.
