@@ -67,6 +67,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency> <!-- AOP (Aspect-Oriented Programming) support -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

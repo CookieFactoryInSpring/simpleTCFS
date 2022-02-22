@@ -9,7 +9,10 @@ import fr.univcotedazur.simpletcfs.entities.Order;
 import fr.univcotedazur.simpletcfs.exceptions.EmptyCartException;
 import fr.univcotedazur.simpletcfs.exceptions.NegativeQuantityException;
 import fr.univcotedazur.simpletcfs.exceptions.PaymentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -19,6 +22,8 @@ import java.util.Set;
 @Component
 public class Cart implements CartModifier, CartProcessor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Cart.class);
+
     @Autowired
     private Payment cashier;
 
@@ -26,7 +31,10 @@ public class Cart implements CartModifier, CartProcessor {
     private InMemoryDatabase memory;
 
     @Override
-    public int update(Customer c, Item item) throws NegativeQuantityException {
+    public int update(@NonNull Customer c, @NonNull Item item) throws NegativeQuantityException {
+        // some very basic logging (see the AOP way for a more powerful approach, in class ControllerLogger)
+        LOG.info("TCFS:Cart-Component: Updating cart of " + c.getName() + " with " + item);
+
         int newQuantity = item.getQuantity();
         Set<Item> items = contents(c);
         Optional<Item> existing = items.stream().filter(e -> e.getCookie().equals(item.getCookie())).findFirst();
