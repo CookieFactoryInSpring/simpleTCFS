@@ -31,7 +31,7 @@ public class Cart implements CartModifier, CartProcessor {
     private InMemoryDatabase memory;
 
     @Override
-    public int update(@NonNull Customer c, @NonNull Item item) throws NegativeQuantityException {
+    public int update(Customer c, Item item) throws NegativeQuantityException {
         // some very basic logging (see the AOP way for a more powerful approach, in class ControllerLogger)
         LOG.info("TCFS:Cart-Component: Updating cart of " + c.getName() + " with " + item);
 
