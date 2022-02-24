@@ -18,7 +18,6 @@ public class Catalog implements CatalogExplorator {
 
     @Override
     public Set<Cookies> exploreCatalogue(String regexp) {
-        EnumSet.allOf(Cookies.class).stream().map(cookie -> cookie.name()).forEach(str -> System.out.println(str));
         return EnumSet.allOf(Cookies.class).stream().filter(cookie -> cookie.name().matches(regexp)).collect(Collectors.toSet());
     }
 

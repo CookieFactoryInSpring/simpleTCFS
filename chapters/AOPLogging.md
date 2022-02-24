@@ -33,7 +33,7 @@ In SpringBoot, the default logging level of the Logger is preset to INFO, meanin
 
 ## Some tuning over the logging
 
-Configuration with logback-spring.xml...
+### Configuration
 
 Configuration of logs can be done by changing some properties, either by passing them as parameters to maven execution, or by adding them to the `application.properties` file (in the `resources`dir). For example :
 
@@ -99,6 +99,33 @@ There are several configuration elements in it:
    * The definition of a new appender (the default is Console) to make rolling files inside a `logs` directory (i.e, files named automatically on a daily basis). As you're certainly going to shutdown frequently the server, you should only have one `tcfs-logger.log` file. 
    * The configuration of the two appenders and log within them, everything at INFO level and up being written, as well as the TRACE level for our `simpletcfs` packages.
 
+### Testing configuration
+
+On the testing side, the previous configuration will be reused by default, but we could want to tune it better, for example, to focus logs on the most important parts when running tests while reducing the overall log size.
+
+First, we can get rid of the Spring banner and some logs from the test context (except errors) by creating a separate `application.properties` file in the `test/resources` directory:
+
+```
+bank.host.baseurl=http://localhost:9090
+
+spring.main.banner-mode=off
+logging.level.org.springframework=ERROR
+```
+
+Note that this new file overrides the one from the source code side, and if we don't define the bank URL, there will be an injection error in the Spring container setup as this property is injected as `@Value`. It also shows that we could have a different URL setup for testing if needed.
+
+Then we can add a `logback-test.xml` file in the `test/resources` directory to configure LogBack:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml" />
+  <logger name="org.springframework" level="ERROR"/>
+</configuration>
+```
+
+Here, we reuse the default configuration and we only restrict logs on the whole Spring framework to `ERROR`. This configuration will only be used during testing.
+
 ## A smarter logging strategy with AOP
 
 The thing with the basic solution is that it is quite cumbersome. One has to put Logger declaration and statements everywhere. While there are other frameworks that reduces the burden (look at Lombok for example), the technical part of Logging is always the same kind of scenarios:
@@ -119,10 +146,6 @@ As an example, we want to log all public methods in all REST controllers so that
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 ```
-
-
-
-
 
 2. Add `@EnableAspectJAutoProxy` to your configuration class (to tell SpringBoot that you active AspectJ support):
 

@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@AutoConfigureMockMvc // start the FULL Web+Back stack (all controllers + all components) but not the server -> Integration test
+@AutoConfigureMockMvc // start the FULL Web+Back stack (all controllers + all components) in an embedded server -> Integration test
 public class RecipeWebAutoConfigureIT {
 
     @Autowired
