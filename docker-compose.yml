@@ -17,7 +17,7 @@ services:
     container_name: cli
     environment:
       - SERVER_WITH_PORT=tcf-server:8080
-    entrypoint: "bash -c '/wait-for-it.sh $${SERVER_WITH_PORT} -- java -jar /app.jar --tcf.host.baseurl=http://$${SERVER_WITH_PORT}'"
+    entrypoint: "bash -c '/wait-for-it.sh $${SERVER_WITH_PORT} -- java -jar /app.jar'"
     depends_on:
       - tcf-server
     volumes:
