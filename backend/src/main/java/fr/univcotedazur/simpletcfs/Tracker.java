@@ -5,6 +5,6 @@ import fr.univcotedazur.simpletcfs.exceptions.UnknownOrderId;
 
 public interface Tracker {
 
-    OrderStatus retrieveStatus(String orderId) throws UnknownOrderId;
+    OrderStatus retrieveStatus(long orderId) throws UnknownOrderId;
 
 }

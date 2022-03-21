@@ -1,5 +1,5 @@
 recipes
-register kadoc 1896983
+register kadoc 5251896983
 show-cart kadoc
 add-to-cart kadoc CHOCOLALALA 12
 add-to-cart kadoc SOO_CHOCOLATE 3
@@ -14,9 +14,11 @@ show-cart kadoc
 // validate empty car triggers an error
 validate-cart kadoc
 // register kadoc twice triggers an error
-register kadoc 121212
-// tatie cannot pay
+register kadoc 5251896983
+// tatie has no valid credit card
 register tatie 121212
+// tatie cannot pay
+register tatie 1234567890
 add-to-cart tatie CHOCOLALALA 1
 show-cart tatie
 validate-cart tatie

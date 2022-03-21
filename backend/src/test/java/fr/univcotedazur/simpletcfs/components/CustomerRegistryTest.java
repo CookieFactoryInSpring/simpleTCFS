@@ -4,21 +4,21 @@ import fr.univcotedazur.simpletcfs.CustomerFinder;
 import fr.univcotedazur.simpletcfs.CustomerRegistration;
 import fr.univcotedazur.simpletcfs.entities.Customer;
 import fr.univcotedazur.simpletcfs.exceptions.AlreadyExistingCustomerException;
+import fr.univcotedazur.simpletcfs.repositories.CustomerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional // default behavior : rollback DB operations after each test (even if it fails)
 class CustomerRegistryTest {
-
-    @Autowired
-    private InMemoryDatabase memory;
 
     @Autowired
     private CustomerRegistration registry;
@@ -26,13 +26,11 @@ class CustomerRegistryTest {
     @Autowired
     private CustomerFinder finder;
 
-    private String name = "John";
-    private String creditCard = "credit card number";
+    @Autowired
+    CustomerRepository customerRepository;
 
-    @BeforeEach
-    void setUp() {
-        memory.flush();
-    }
+    private String name = "John";
+    private String creditCard = "1234567890";
 
     @Test
     public void unknownCustomer() {

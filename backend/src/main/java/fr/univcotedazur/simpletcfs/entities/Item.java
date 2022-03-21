@@ -1,10 +1,19 @@
 package fr.univcotedazur.simpletcfs.entities;
 
-import java.io.Serializable;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
-public class Item implements Serializable {
+@Embeddable
+public class Item {
 
+    @Enumerated(EnumType.STRING)
+    @NotNull
     private Cookies cookie;
+
+    @NotNull
     private int quantity;
 
     public Item() {}
@@ -36,15 +45,11 @@ public class Item implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Item)) return false;
         Item item = (Item) o;
-        if (getQuantity() != item.getQuantity()) return false;
-        return getCookie() == item.getCookie();
+        return quantity == item.quantity && cookie == item.cookie;
     }
 
     @Override
     public int hashCode() {
-        int result = getCookie().hashCode();
-        result = 31 * result + getQuantity();
-        return result;
+        return Objects.hash(cookie, quantity);
     }
-
 }

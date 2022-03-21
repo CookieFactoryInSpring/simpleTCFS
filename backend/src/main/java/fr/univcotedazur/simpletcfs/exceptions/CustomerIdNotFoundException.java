@@ -2,20 +2,20 @@ package fr.univcotedazur.simpletcfs.exceptions;
 
 public class CustomerIdNotFoundException extends Exception {
 
-    private String id;
+    private Long id;
 
-    public CustomerIdNotFoundException(String id) {
+    public CustomerIdNotFoundException(Long id) {
         this.id = id;
     }
 
     public CustomerIdNotFoundException() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

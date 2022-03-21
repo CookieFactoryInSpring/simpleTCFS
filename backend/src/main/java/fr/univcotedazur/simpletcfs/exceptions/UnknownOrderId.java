@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 public class UnknownOrderId extends Exception {
 
-    private String orderId;
+    private Long orderId;
 
-    public UnknownOrderId(String id) {
+    public UnknownOrderId(Long id) {
         orderId = id;
     }
 
     public UnknownOrderId() {
     }
 
-    public String getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 }

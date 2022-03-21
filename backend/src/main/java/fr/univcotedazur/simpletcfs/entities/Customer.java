@@ -1,16 +1,31 @@
 package fr.univcotedazur.simpletcfs.entities;
 
-import java.io.Serializable;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
-public class Customer implements Serializable {
+@Entity
+public class Customer {
 
-    private String id;
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @NotBlank
+    @Column(unique = true)
     private String name;
+
+    @Pattern(regexp = "\\d{10}+", message = "Invalid creditCardNumber")
     private String creditCard;
+
+    @OneToMany(cascade = {CascadeType.REMOVE}, fetch = FetchType.LAZY, mappedBy = "customer")
     private Set<Order> orders = new HashSet<>();
+
+    @ElementCollection
+    private Set<Item> cart = new HashSet<>();
 
     public Customer() {
     }
@@ -18,10 +33,9 @@ public class Customer implements Serializable {
     public Customer(String n, String c) {
         this.name = n;
         this.creditCard = c;
-        this.id = UUID.randomUUID().toString();
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
@@ -49,24 +63,25 @@ public class Customer implements Serializable {
         return orders;
     }
 
+    public Set<Item> getCart() {
+        return cart;
+    }
+
+    public void setCart(Set<Item> cart) {
+        this.cart = cart;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
-        if (!getId().equals(customer.getId())) return false;
-        if (!getName().equals(customer.getName())) return false;
-        if (!getCreditCard().equals(customer.getCreditCard())) return false;
-        return orders.equals(customer.orders);
-
+        if (getName() != null ? !getName().equals(customer.getName()) : customer.getName() != null) return false;
+        return getCreditCard() != null ? !getCreditCard().equals(customer.getCreditCard()) : customer.getCreditCard() != null;
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getName().hashCode();
-        result = 31 * result + getCreditCard().hashCode();
-        return result;
+        return Objects.hash(name, creditCard);
     }
-
 }

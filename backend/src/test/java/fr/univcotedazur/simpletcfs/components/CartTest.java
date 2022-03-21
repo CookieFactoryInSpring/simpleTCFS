@@ -10,18 +10,23 @@ import fr.univcotedazur.simpletcfs.entities.Item;
 import fr.univcotedazur.simpletcfs.exceptions.AlreadyExistingCustomerException;
 import fr.univcotedazur.simpletcfs.exceptions.EmptyCartException;
 import fr.univcotedazur.simpletcfs.exceptions.NegativeQuantityException;
+import fr.univcotedazur.simpletcfs.repositories.CustomerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@Transactional
 class CartTest {
 
     @Autowired
@@ -31,21 +36,28 @@ class CartTest {
     private CartProcessor processor;
 
     @Autowired
-    private InMemoryDatabase memory;
-
-    @Autowired
     private CustomerRegistration registry;
 
     @Autowired
     private CustomerFinder finder;
 
+    @Autowired
+    CustomerRepository customerRepository;
+
     private Customer john;
 
     @BeforeEach
     void setUp() throws AlreadyExistingCustomerException {
-        memory.flush();
-        registry.register("John", "credit card number");
-        john = finder.findByName("John").get();
+        john = registry.register("John", "1234567890");
+    }
+
+    @AfterEach
+    public void cleaningUp()  {
+        Optional<Customer> toDispose = customerRepository.findCustomerByName("John");
+        if (toDispose.isPresent()) {
+            customerRepository.delete(toDispose.get());
+        }
+        john = null;
     }
 
     @Test

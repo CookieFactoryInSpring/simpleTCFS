@@ -7,13 +7,16 @@ import fr.univcotedazur.simpletcfs.entities.Customer;
 import fr.univcotedazur.simpletcfs.entities.Item;
 import fr.univcotedazur.simpletcfs.entities.Order;
 import fr.univcotedazur.simpletcfs.exceptions.PaymentException;
+import fr.univcotedazur.simpletcfs.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Component
+@Transactional
 public class Cashier implements Payment {
 
     @Autowired
@@ -23,7 +26,7 @@ public class Cashier implements Payment {
     private OrderProcessing kitchen;
 
     @Autowired
-    private InMemoryDatabase memory;
+    private OrderRepository orderRepository;
 
     @Override
     public Order payOrder(Customer customer, Set<Item> items) throws PaymentException {
@@ -38,7 +41,8 @@ public class Cashier implements Payment {
         }
 
         customer.add(order);
-        memory.getOrders().put(order.getId(),order);
+        // TODO save customer ?
+        order = orderRepository.save(order);
         kitchen.process(order);
 
         return order;
