@@ -7,11 +7,18 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+<<<<<<< HEAD
 
 @Entity
 @Table(name= "orders")
 public class Order {
 
+=======
+@Entity
+@Table(name= "orders")
+public class Order {
+
+>>>>>>> fcd5f0b2723242a71286f98e47363ecda514c405
     @Id
     @GeneratedValue
     private Long id;
