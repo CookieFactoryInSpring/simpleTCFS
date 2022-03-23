@@ -1,13 +1,11 @@
 package fr.univcotedazur.simpletcfs.entities;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 
 @Entity
 public class Customer {
