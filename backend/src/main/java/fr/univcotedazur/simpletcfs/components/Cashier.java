@@ -41,7 +41,6 @@ public class Cashier implements Payment {
         }
 
         customer.add(order);
-        // TODO save customer ?
         order = orderRepository.save(order);
         kitchen.process(order);
 

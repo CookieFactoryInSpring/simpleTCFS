@@ -50,7 +50,6 @@ public class Cart implements CartModifier, CartProcessor {
             }
         }
         c.setCart(items);
-        // TODO: check the need to save customer?
         return newQuantity;
     }
 
@@ -76,7 +75,6 @@ public class Cart implements CartModifier, CartProcessor {
             throw new EmptyCartException(c.getName());
         Order res = cashier.payOrder(c, contents(c));
         contents(c).clear();
-        // TODO: check the need to save customer?
         return res;
     }
 
