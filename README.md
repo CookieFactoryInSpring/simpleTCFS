@@ -21,7 +21,7 @@ _The Cookie Factory_ (TCF) is a major bakery brand in the USA. The _Cookie on De
   2. [Business Components](chapters/BusinessComponents.md)
   3. [Controllers](chapters/Controllers.md)
   4. [Testing](chapters/Testing.md)
-  5. Persistence
+  5. [Persistence](chapters/Persistence.md)
   6. [AOP, logging, and monitoring](chapters/AOPLogging.md)
 
 ## How to use this repository
