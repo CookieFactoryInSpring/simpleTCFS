@@ -1,0 +1,13 @@
+spring:
+  main:
+    banner-mode: off
+  shell:
+    interactive:
+      enabled: true
+
+server:
+  port: 8081
+
+tcf:
+  host:
+    baseurl: http://${SERVER_WITH_PORT:localhost:8080}
