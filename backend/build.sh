@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 echo "Compiling the TCF Spring BACKEND within a multi-stage docker build"
 

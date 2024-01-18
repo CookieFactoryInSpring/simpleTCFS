@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Running the image as
 #  - removing the container after exit (ease housekeeping because it's a POC)
