@@ -31,6 +31,12 @@ _The Cookie Factory_ (TCF) is a major bakery brand in the USA. The _Cookie on De
 
 The following "build and run" documentation is divided in two versions from "everything in a container" to a bare run. The second part helps in understanding each compilation and running steps.
 
+If you want, the bank API has been deployed on the Apoorva Hosting Service (uptime not garanteed, no SLA provided, no support provided).   
+However ! We can garantee that the servers are France, maybe in Europe, maybe somewhere else.  
+Here is the url : https://bank.polytech.apoorva64.com/.  
+Here is the uptime : https://uptime.ozeliurs.com/status/polytech.  
+Here is the admin : best-admin-in-the-world@ozeliurs.com  
+
 ### Everything containerized
 
 While the details and separate build of each subsystem can be found in the following section, we run here the Spring backend with postgres, the CLI, and the external system into docker. It requires to build the three images while the `docker compose` will take care of retrieving an official postgres image and compose everything.
