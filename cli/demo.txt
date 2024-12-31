@@ -1,0 +1,35 @@
+echo "start of demo"
+echo "SCENARIO: simple registration and valid order"
+recipes
+register kadoc 5251896983
+customers
+echo "cart content ->"
+show-cart kadoc
+add-to-cart kadoc CHOCOLALALA 12
+add-to-cart kadoc SOO_CHOCOLATE 3
+show-cart kadoc
+remove-from-cart kadoc SOO_CHOCOLATE 1
+show-cart kadoc
+validate-cart kadoc
+show-cart kadoc
+orders
+echo "ERROR 403: removing too much cookies in a cart"
+add-to-cart kadoc SOO_CHOCOLATE 2
+remove-from-cart kadoc SOO_CHOCOLATE 3
+show-cart kadoc
+validate-cart kadoc
+orders
+echo "ERROR 403: validating empty cart triggers an error"
+validate-cart kadoc
+echo "ERROR 409: registering a customer twice triggers an error"
+register kadoc 5251896983
+echo "ERROR 422: registering a customer with an invalid credit card"
+register tatie 121212
+echo "ERROR 400: paying with a credit card that will be denied by the bank"
+register tatie 1234567890
+customers
+add-to-cart tatie CHOCOLALALA 1
+show-cart tatie
+validate-cart tatie
+orders
+echo "END OF SCENARIO / you can get the status of an order by its id"

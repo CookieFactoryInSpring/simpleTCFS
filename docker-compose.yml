@@ -1,0 +1,73 @@
+services:
+  # The Cookie Factory backend in SpringBoot
+  tcf-server:
+    image: pcollet/tcf-spring-backend
+    container_name: backend
+    ports:
+      - 8080:8080
+    environment:
+      - BANK_WITH_PORT=bank-system:9090
+      - POSTGRES_HOST=postgres:5432
+    entrypoint: "java -jar /opt/app/app.jar --bank.host.baseurl=http://$${BANK_WITH_PORT}"
+    restart: always
+    depends_on:
+      bank-system:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: "curl --silent --fail localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # the postgres DB to be connected to the backend (watch out: no volume specified, everything can be lost)
+  postgres:
+    image: postgres:17.2
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=postgrespass
+      - POSTGRES_USER=postgresuser
+      - POSTGRES_DB=tcf-db
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d tcf-db -U $$POSTGRES_USER" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # A simple java CLI
+  tcf-cli:
+    image: pcollet/tcf-spring-cli
+    container_name: cli
+    environment:
+      - SERVER_WITH_PORT=tcf-server:8080
+    entrypoint: "java -jar /opt/app/app.jar"
+    depends_on:
+      tcf-server:
+        condition: service_healthy
+    volumes:
+      - ./cli/demo.txt:/opt/app/demo.txt
+    stdin_open: true
+    tty: true
+    healthcheck:
+      test: "curl --silent --fail localhost:8081/actuator/health | grep UP || exit 1"
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # An external bank service in NestJs
+  bank-system:
+    image: pcollet/tcf-bank-service
+    container_name: bank
+    ports:
+      - 9090:9090
+    healthcheck:
+      test: [ "CMD", "/nodejs/bin/node" , "healthcheck.js" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
